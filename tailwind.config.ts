@@ -1,15 +1,17 @@
-/** @type {import('tailwindcss').Config} */
-export default {
+// tailwind.config.ts
+import type { Config } from 'tailwindcss';
+
+const config: Config = {
   content: [
-    './app/**/*.{js,ts,jsx,tsx}',
-    './components/**/*.{js,ts,jsx,tsx}',
+    './app/**/*.{js,ts,jsx,tsx,mdx}',
+    './components/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
     extend: {
       colors: {
-        primary: '#1e40af', // Deep blue for header
-        accent: '#10b981', // Green for buttons
-        secondary: '#4b5563', // Gray for text
+        primary: '#1e40af',
+        accent: '#10b981',
+        secondary: '#4b5563',
       },
       fontFamily: {
         sans: ['Inter', 'Arial', 'sans-serif'],
@@ -18,3 +20,5 @@ export default {
   },
   plugins: [],
 };
+
+export default config;

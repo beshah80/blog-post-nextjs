@@ -18,7 +18,6 @@ export interface Comment {
   postId: string;
 }
 
-// Type for JSONPlaceholder API comment response
 type JsonPlaceholderComment = {
   id: number;
   name: string;
@@ -26,7 +25,7 @@ type JsonPlaceholderComment = {
   postId: number;
 };
 
-// Static blog posts (three posts)
+// Sample posts
 const samplePosts: BlogPost[] = [
   {
     id: "1",
@@ -183,27 +182,27 @@ Tailwind CSS makes styling faster and more consistent, especially when paired wi
   },
 ];
 
-// In-memory store for locally added comments
 const localComments: Comment[] = [];
 
-// Retrieve all blog posts (static)
+// Get all posts
 export function getAllPosts(): BlogPost[] {
   return [...samplePosts].sort(
     (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
   );
 }
 
-// Retrieve a single blog post by its slug (static)
+// Get post by slug
 export function getPostBySlug(slug: string): BlogPost | undefined {
   return samplePosts.find((post) => post.slug === slug);
 }
 
-// Retrieve comments for a specific post by its ID from JSONPlaceholder (limit to 2)
+// Get comments for a post
 export async function getCommentsByPostId(postId: string): Promise<Comment[]> {
   try {
     const response = await fetch(
       `https://jsonplaceholder.typicode.com/posts/${postId}/comments`
     );
+
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
@@ -218,7 +217,6 @@ export async function getCommentsByPostId(postId: string): Promise<Comment[]> {
       postId: comment.postId.toString(),
     }));
 
-    // Combine fetched comments with local comments
     const localPostComments = localComments.filter(
       (comment) => comment.postId === postId
     );
@@ -230,7 +228,7 @@ export async function getCommentsByPostId(postId: string): Promise<Comment[]> {
   }
 }
 
-// Add a new comment (stored in-memory)
+// Add new comment
 export function addComment(comment: Omit<Comment, "id" | "date">): Comment {
   const newComment: Comment = {
     ...comment,

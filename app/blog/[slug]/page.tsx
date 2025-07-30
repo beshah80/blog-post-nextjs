@@ -35,7 +35,7 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
         try {
           const fetchedPost = await getPostBySlug(slug);
           setPost(fetchedPost || null);
-        } catch (err) {
+        } catch {
           setError("Failed to load post. Please try again later.");
         } finally {
           setLoading(false);
@@ -52,7 +52,7 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
         try {
           const fetchedComments = await getCommentsByPostId(post.id);
           setComments(fetchedComments);
-        } catch (err) {
+        } catch {
           setError("Failed to load comments. Please try again later.");
         }
       };

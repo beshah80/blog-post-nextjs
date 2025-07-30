@@ -18,6 +18,14 @@ export interface Comment {
   postId: string;
 }
 
+// Type for JSONPlaceholder API comment response
+type JsonPlaceholderComment = {
+  id: number;
+  name: string;
+  body: string;
+  postId: number;
+};
+
 // Static blog posts (three posts)
 const samplePosts: BlogPost[] = [
   {
@@ -176,7 +184,7 @@ Tailwind CSS makes styling faster and more consistent, especially when paired wi
 ];
 
 // In-memory store for locally added comments
-let localComments: Comment[] = [];
+const localComments: Comment[] = [];
 
 // Retrieve all blog posts (static)
 export function getAllPosts(): BlogPost[] {
@@ -199,18 +207,22 @@ export async function getCommentsByPostId(postId: string): Promise<Comment[]> {
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
-    const data = await response.json();
-    const fetchedComments = data.slice(0, 2).map((comment: any) => ({
+
+    const data: JsonPlaceholderComment[] = await response.json();
+
+    const fetchedComments = data.slice(0, 2).map((comment) => ({
       id: comment.id.toString(),
       author: comment.name,
       content: comment.body,
       date: new Date().toISOString().split("T")[0],
       postId: comment.postId.toString(),
     }));
+
     // Combine fetched comments with local comments
     const localPostComments = localComments.filter(
       (comment) => comment.postId === postId
     );
+
     return [...fetchedComments, ...localPostComments];
   } catch (error) {
     console.error("Error fetching comments from JSONPlaceholder:", error);

@@ -14,8 +14,9 @@ export default function Blog() {
       try {
         const fetchedPosts = await getAllPosts();
         setPosts(fetchedPosts);
-      } catch (err) {
+      } catch {
         setError("Failed to load posts. Please try again later.");
+        return;
       } finally {
         setLoading(false);
       }
